@@ -1,6 +1,6 @@
 # Bank DApp
 
-เว็บธนาคารสำหรับงาน Smart Contract ของนพรัตน์ สวัสดิ์เอื้อ รหัสนักศึกษา 66050180 ใช้ MetaMask เพื่อฝาก ถอน และตรวจสอบยอดเงินจากสัญญา Bank บน Ethereum Sepolia
+เว็บธนาคารสำหรับงาน Smart Contract ของนพรัตน์ สวัสดิ์เอื้อ รหัสนักศึกษา 66050180 ใช้ MetaMask เพื่อฝาก ถอน และตรวจสอบยอดเงินจากสัญญา Bank บน Ethereum Hoodi
 
 ## ไฟล์ในโปรเจกต์
 
@@ -11,14 +11,16 @@
 ## Deploy สัญญาใน Remix
 
 1. เปิด [Remix IDE](https://remix.ethereum.org/) สร้างไฟล์ `Bank.sol` แล้วคัดลอกโค้ดจากไฟล์ในโปรเจกต์
-2. ไปที่ **Solidity Compiler** เลือก `0.8.30` แล้วกด **Compile Bank.sol**
+2. ไปที่ **Solidity Compiler** เลือก `0.8.20` แล้วกด **Compile Bank.sol**
 3. ไปที่ **Deploy & Run Transactions** เลือก **Remix VM** และ `Bank` ตั้ง **Value** เป็น `0` แล้วกด **Deploy** เพื่อทดสอบในเครื่องจำลอง
-4. หากต้องการทดสอบบน Sepolia ให้เลือก **Browser Extension** และ MetaMask ตรวจว่าเครือข่ายเป็น **Sepolia** และมี Sepolia ETH สำหรับค่า gas จากนั้นเลือก `Bank` ตั้ง **Value** เป็น `0` กด **Deploy** แล้วตรวจและยืนยันใน MetaMask
-5. เมื่อธุรกรรมสำเร็จ ให้คัดลอก **Contract Address** จาก **Deployed Contracts** และเก็บ Transaction Hash จากประวัติ MetaMask เพื่อตรวจสอบบน [Sepolia Etherscan](https://sepolia.etherscan.io/)
+4. หากต้องการทดสอบบน Hoodi ให้เลือก **Browser Extension** และ MetaMask ตรวจว่าเครือข่ายเป็น **Hoodi** และมี Hoodi ETH สำหรับค่า gas จากนั้นเลือก `Bank` ตั้ง **Value** เป็น `0` กด **Deploy** แล้วตรวจและยืนยันใน MetaMask
+5. เมื่อธุรกรรมสำเร็จ ให้คัดลอก **Contract Address** จาก **Deployed Contracts** และเก็บ Transaction Hash จากประวัติ MetaMask เพื่อตรวจสอบบน [Hoodi Etherscan](https://hoodi.etherscan.io/)
 
 ดูตำแหน่งเมนูและตัวเลือกเครือข่ายใน [คู่มือ Deploy & Run ของ Remix](https://remix-ide.readthedocs.io/en/latest/run.html)
 
-## ตั้งค่าที่อยู่ก่อนส่งงาน
+## ที่อยู่สัญญา
+
+เว็บตั้งค่า Bank Contract บน Hoodi ไว้ที่ [0x2c5564522d90bc97e2b580fef676543f793a1223](https://hoodi.etherscan.io/address/0x2c5564522d90bc97e2b580fef676543f793a1223) หาก Deploy สัญญาใหม่ ให้ใช้ขั้นตอนด้านล่างเพื่อเปลี่ยนที่อยู่
 
 - ทดสอบบนเว็บได้ทันทีโดยวาง Contract Address ในช่อง **ที่อยู่สัญญา Bank** แล้วกด **บันทึก** ค่านี้จะอยู่ในเบราว์เซอร์ที่บันทึก
 - ให้ผู้ตรวจเปิดเว็บแล้วเห็นสัญญาตั้งต้นได้โดยใส่ Contract Address จริงใน `contractAddress` ที่ไฟล์ `config.js` แล้วคอมมิตไฟล์ไปยังสาขาที่ GitHub Pages ใช้เผยแพร่
@@ -26,7 +28,7 @@
 ## ทดสอบจากหน้าเว็บ
 
 1. เปิดหน้าเว็บผ่าน GitHub Pages ในเบราว์เซอร์ที่มี MetaMask แล้วกด **เชื่อมต่อ MetaMask**
-2. เลือกบัญชีและเครือข่าย **Sepolia** ตรวจว่าช่อง Smart Contract แสดง **เชื่อมต่อแล้ว**
+2. เลือกบัญชีและอนุญาตให้เพิ่มหรือสลับไป **Hoodi** ใน MetaMask เมื่อมีคำขอ แล้วตรวจว่าช่อง Smart Contract แสดง **เชื่อมต่อแล้ว**
 3. ใช้บัญชีที่ยังไม่เคยฝากกับสัญญานี้ กด **ตรวจสอบยอดเงิน** ควรเห็น `0 ETH` การอ่านยอดไม่ต้องยืนยันธุรกรรม
 4. กรอก `0.001` ในช่องฝาก กด **ฝากเงิน** และยืนยันใน MetaMask เมื่อรายการสำเร็จ ยอดในสัญญาควรเป็น `0.001 ETH`
 5. กรอก `0.0004` ในช่องถอน กด **ถอนเงิน** และยืนยัน เมื่อรายการสำเร็จ ยอดในสัญญาควรเป็น `0.0006 ETH`

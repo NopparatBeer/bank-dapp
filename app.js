@@ -99,7 +99,7 @@
       case 4001: return 'คุณยกเลิกคำขอใน MetaMask';
       case 4100: return 'MetaMask ยังไม่ได้อนุญาตให้เว็บเข้าถึงบัญชีนี้';
       case 4900: return 'MetaMask หลุดจากเครือข่าย กรุณาเชื่อมต่ออีกครั้ง';
-      case 4902: return 'กรุณาเปิดแสดงเครือข่ายทดสอบและเลือก ' + config.networkName + ' ใน MetaMask';
+      case 4902: return 'MetaMask ยังไม่รู้จักเครือข่าย ' + config.networkName;
       case -32002: return 'มีคำขอค้างอยู่ กรุณาเปิด MetaMask เพื่อตรวจสอบ';
       default: return error?.shortMessage || error?.message || 'เกิดข้อผิดพลาดจาก MetaMask';
     }
@@ -250,6 +250,29 @@
     render();
   }
 
+  async function switchToBankNetwork() {
+    const switchParams = [{ chainId: config.chainId }];
+
+    try {
+      await request('wallet_switchEthereumChain', switchParams);
+    } catch (error) {
+      if (error?.code !== 4902) throw error;
+
+      await request('wallet_addEthereumChain', [{
+        chainId: config.chainId,
+        chainName: config.networkName,
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+        rpcUrls: [config.rpcUrl],
+        blockExplorerUrls: [config.explorer],
+      }]);
+
+      const chain = await request('eth_chainId');
+      if (chain.toLowerCase() !== config.chainId) {
+        await request('wallet_switchEthereumChain', switchParams);
+      }
+    }
+  }
+
   async function connect() {
     if (!state.provider) chooseProvider(legacyMetaMask());
     if (!state.provider) {
@@ -264,7 +287,7 @@
       await request('eth_requestAccounts');
       const chain = await request('eth_chainId');
       if (chain.toLowerCase() !== config.chainId) {
-        await request('wallet_switchEthereumChain', [{ chainId: config.chainId }]);
+        await switchToBankNetwork();
       }
     } catch (error) {
       feedback(errorMessage(error), 'error');
